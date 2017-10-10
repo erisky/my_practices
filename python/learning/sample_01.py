@@ -1,0 +1,27 @@
+#!/usr/bin/env python
+
+print "'stop' to end" 
+while True:
+    reply = raw_input('Input:')
+    if reply == 'stop':
+        break
+    elif  len(reply) == 0:
+        break
+    if reply.isdigit():
+        print "0x%x" % int(reply)
+    else:
+        print reply.upper()
+print "end"
+
+
+
+import sys
+tmp = sys.stdout
+sys.stdout = open('output.txt', 'a')
+print 'Redirect it'
+sys.stdout.close()
+
+sys.stdout = tmp
+
+for x in range(1,20):
+    print 'range test %d' % x
