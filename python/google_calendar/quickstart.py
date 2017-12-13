@@ -59,14 +59,52 @@ def main():
     """
     credentials = get_credentials()
     http = credentials.authorize(httplib2.Http())
-    service = discovery.build('calendar', 'v3', http=http)
 
-    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-    print('Getting the upcoming 10 events')
-    eventsResult = service.events().list(
-        calendarId='primary', timeMin=now, maxResults=10, singleEvents=True,
-        orderBy='startTime').execute()
-    events = eventsResult.get('items', [])
+    service = discovery.build('calendar', 'v3', http=http)
+    mycallist = service.calendarList().list().execute()
+    
+    items = mycallist['items']
+    for cal in items:
+        print (cal[u'summary'])
+        print ("-----------------------")
+        #print(cal)
+
+    print("Try task APIs ")
+    
+#    #credentials = get_credentials()
+#    #http = credentials.authorize(httplib2.Http())
+#    service = discovery.build('tasks', 'v1', http=http)
+#
+#    results = service.tasklists().list(maxResults=10).execute()
+#    items = results.get('items', [])
+#    if not items:
+#        print('No task lists found.')
+#    else:
+#        print('Task lists:')
+#        for item in items:
+#            print('{0} ({1})'.format(item['title'], item['id']))
+
+
+    mycalendar = service.calendars().get(calendarId='primary').execute()
+  
+
+    print (mycallist)
+    
+    print (mycalendar)
+
+
+    exit(0)
+
+    '''
+        service = discovery.build('calendar', 'v3', http=http)
+    
+        now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+        print('Getting the upcoming 10 events')
+        eventsResult = service.events().list(
+            calendarId='primary', timeMin=now, maxResults=10, singleEvents=True,
+            orderBy='startTime').execute()
+        events = eventsResult.get('items', [])  
+
 
 #    eventsResult = service.events().list(
 #        timeMin=now, maxResults=10, singleEvents=True,
@@ -78,7 +116,7 @@ def main():
         print('No upcoming events found.')
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
-        print(start, event['summary'])
+        print(start, event['summary']) '''
 
 
 if __name__ == '__main__':
