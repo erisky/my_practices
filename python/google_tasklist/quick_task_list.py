@@ -15,7 +15,8 @@ except ImportError:
 
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.credentials/tasks-python-quickstart.json
-SCOPES = 'https://www.googleapis.com/auth/tasks.readonly'
+#SCOPES = 'https://www.googleapis.com/auth/tasks.readonly'
+SCOPES = 'https://www.googleapis.com/auth/tasks'
 CLIENT_SECRET_FILE = 'client_secret.json'
 APPLICATION_NAME = 'Google Tasks API Python Quickstart'
 
@@ -64,16 +65,26 @@ def main():
         if u'due' in task.keys():
             print (task['title'], task['due'])
 
-    results = service.tasklists().list(maxResults=10).execute()
-    items = results.get('items', [])
-    if not items:
-        print('No task lists found.')
-    else:
-        print('Task lists:')
-        print(items)
-        for item in items:
-            print(item[u'title'])
-            #print('{0} ({1})'.format(item[u'title'], item[u'id']))
+
+#    task = {
+#      'title': 'New Task',
+#      'notes': 'Please complete me',
+#      'due': '2010-10-15T12:00:00.000Z'
+#    }
+
+#    result = service.tasks().insert(tasklist='@default', body=task).execute()
+#    print (result['id'])
+
+#    results = service.tasklists().list(maxResults=10).execute()
+#    items = results.get('items', [])
+#    if not items:
+#        print('No task lists found.')
+#    else:
+#        print('Task lists:')
+#        print(items)
+#        for item in items:
+#            print(item[u'title'])
+#            #print('{0} ({1})'.format(item[u'title'], item[u'id']))
 
 if __name__ == '__main__':
     main()
