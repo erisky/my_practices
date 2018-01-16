@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from __future__ import print_function
 import httplib2
 import os
@@ -6,6 +7,7 @@ from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
+import time 
 
 try:
     import argparse
@@ -49,6 +51,52 @@ def get_credentials():
         print('Storing credentials to ' + credential_path)
     return credentials
 
+def setup_credentials():
+    credentials = get_credentials()
+    http = credentials.authorize(httplib2.Http())
+    service = discovery.build('tasks', 'v1', http=http)
+    return service 
+
+def add_task(taskname,  description, timet):
+    service = setup_credentials()
+    task = {
+      'title': taskname,
+      'notes': description
+    }
+
+    strt = time.strftime("%Y-%m-%dT00:00:00.000Z",timet)
+    task['due'] = strt
+    result = service.tasks().insert(tasklist='@default', body=task).execute()
+    print (result['id'])
+    return (result['id'])
+
+
+def load_all_task():
+    mytasks = []
+    task = {}
+    service = setup_credentials()
+    tasks = service.tasks().list(tasklist='@default').execute()
+    for task in tasks['items']:
+        #print(task)
+        if u'due' in task.keys():
+            item = {}
+            item['jobname'] = task['title']
+            item['date'] = task['due']
+            item['id'] = task['id']
+            if 'notes' in item.keys():
+                item['description'] = task['notes']
+            #print (task['title'], task['due'])
+            mytasks.append(item)
+            #print(task)
+
+    return mytasks
+
+# 
+def sync_to_tasklist():
+    return 
+
+
+
 def main():
     """Shows basic usage of the Google Tasks API.
 
@@ -64,6 +112,12 @@ def main():
         #print(task)
         if u'due' in task.keys():
             print (task['title'], task['due'])
+            # print(task)
+
+
+    # Task Lists
+    tasklists = service.tasklists().list().execute()
+    print (tasklists)
 
 
 #    task = {
