@@ -1,0 +1,228 @@
+20171019 - :http://learnvimscriptthehardway.stevelosh.com/chapters/02.html
+:set number!:set number
+:set numberwidth=10
+
+:set wrap?
+:set shiftround?
+:set matchtime?
+http://learnvimscriptthehardway.stevelosh.com/chapters/03.html
+basic mapping:
+:map - x
+:map - dd
+:map <c-d> dd
+
+http://learnvimscriptthehardway.stevelosh.com/chapters/04.html
+
+
+nmap -normal mode
+vmap -visual mode
+imap -insert mode
+
+tip:
+visual mode 'U'  -> turn to UPPERCASE
+            'u'  -> lowercase
+
+:imap <c-d> <esc>dd
+--> map ctrl-d to delete line in insert mode
+ex:
+:imap <c-u> <esc>vwU
+
+prin
+PRINTF("")
+        wdd
+            >
+        pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp
+        {                       }
+        wfw
+        Wef
+        We
+        few
+        f
+PRINTF("THIS IS FUNNNY");
+w "select world"select worldw "select world"select world
+w "select world"select world
+        fwefew
+        wef
+        ww "select world"select worlde
+        fwe
+      :map <space> viw " Select word  f
+
+http://learnvimscriptthehardway.stevelosh.com/chapters/05.html
+:nmap x dd
+##  --> don't recusive
+:nnoremap \ x
+--> always use it 
+
+http://learnvimscriptthehardway.stevelosh.com/chapters/06.html
+#[6]  Using <leader> character
+leading key idea:
+:let mapleader = "-"
+:nnoremap <leader>d dd
+ffwef
+few 
+a
+#[8] abbreviation
+:iabbrev  --> to fixes some type
+:iabbrev waht what
+:set iskeyword?
+what -> replaced when we add a tail non-keyowrd
+
+:iabbrev ssig --<cr>Eric Chen<cr>frederick.chen9@gmail.com <cr>
+
+:nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
+no ggggood
+:nnoremap <leader>g viw<esc>a"<esc>bi"<esc>lel
+-> OK, "why"
+--
+"Eric" "Chen"
+frederick.chen9@gmail.com 
+
+[10]
+exit insert mode
+:inoremap jk <esc>l
+
+printf("this is a tes ");
+printf("this is a test!");
+llllllllu
+#force to remeber! -> disable the <esc> !!!
+:inoremap <esc> <nop>
+
+[11]
+:nnoremap          <leader>d dd
+:nnoremap <buffer> <leader>x dd
+--> map keys depending on which buffer we are in
+
+
+localleader instead of leader..
+
+:setlocal --> local version of set
+
+:nnoremap <buffer> Q x       * work in the buffer we define it .
+:nnoremap          Q dd
+
+[12] autocommands
+:autocmd BufNewFile * :write
+
+:autocmd BufNewFile * :write
+         ^          ^ ^
+         |          | |
+         |          | The command to run.
+         |          |
+         |          A "pattern" to filter the event.
+         |
+         The "event" to watch for.
+
+       tbd!
+針對 txt檔案:w
+:autocmd BufNewFile *.txt :write
+
+
+:autocmd FileType javascript nnoremap <buffer> <localleader>c I//<esc>
+:autocmd FileType python     nnoremap <buffer> <localleader>c I#<esc>
+==> <buffer> not work ... why !>
+:help autocmd-events 
+
+[13]
+ buffer iaabre
+:autocmd FileType python     :iabbrev <buffer> iff if:<left>
+:autocmd FileType javascript :iabbrev <buffer> iff if ()<left>
+
+[14]
+:autocmd BufWrite * :echom "Writing buffer!"
+
+Grouping Autocommands
+
+:augroup testgroup
+:    autocmd BufWrite * :echom "Foo"
+:    autocmd BufWrite * :echom "Bar"
+:augroup END:
+augroup filetype_html
+    autocmd!
+    autocmd FileType html nnoremap <buffer> <localleader>f Vatzf
+augroup END
+
+[15]
+:onoremap p i(:
+===> works for dp & cp  --> but ... seem not necessary
+return person.get_pets(type="cat", fluffy_only=True)
+
+onoremap  -->  waiting some command...
+
+
+:onoremap b /return<cr>
+def count(i):
+    i += 1
+    print i
+
+    return foo
+
+:onoremap in( :<c-u>normal! f(vi(<cr>
+ --> bad example
+print foo(bar)
+:onoremap il( :<c-u>normal! F)vi(<cr>
+ --> bad example
+
+:normal!  a command used to simulate pressing keys in normal mode
+-- bad 
+[16]
+
+change the header with cih
+=========
+
+This is some text about topic one.
+
+It has multiple paragraphs.
+
+Topic Two
+=========
+
+This is some text about topic two.  It has only one paragraph.
+
+>>> change the header with cih
+:onoremap ih :<c-u>execute "normal! ?^==\\+$\r:nohlsearch\rkvg_"<cr>
+
+:execute "normal! ?^==\\+$\r:nohlsearch\rkvg_"<cr>
+^^^^^^^^ 
+?^==\+$     --> find =====
+:nohlsearch --> disable search hilight
+kvg_        --> up, visual to end
+
+:normal 
+:execute
+
+$$$$ 
+Useful: regex pattern:
+[:help pattern-overview]
+
+frederick@gmail.com
+eric@fuckme.com
+
+
+frederick.chen9@gmail.com
+asket123_2@gamil.com
+
+To find a email address:
+?\(\w\|\.\)\+@\(\w\|\.\)\+
+
+[17]
+:set statusline=%f  
+:set statusline=%f\ -\ FileType:\ %y
+
+:set statusline=%f         " Path to the file
+:set statusline+=%=        " Switch to the right side
+:set statusline+=%l        " Current line
+:set statusline+=/         " Separator
+:set statusline+=%L        " Total lines
+:help statusline
+
+[18]
+za -- > fold
+
+>>> same:
+:setlocal wrap
+:setl wrap
+:help foldlevelstart
+
+
+
+
