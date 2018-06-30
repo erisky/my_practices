@@ -223,6 +223,20 @@ za -- > fold
 :setl wrap
 :help foldlevelstart
 
+[19]
+register string as
+:let @a = "Hello World"
+      ^ --> only single char allowed
+then paste in normal mode by "ap
+
+eric_chen@gmail.com
+
+yanked --> @"
+searched  --> @/
+[20]
+variable scope:
+b:var
+belong to the buffer scope
 
 
 
