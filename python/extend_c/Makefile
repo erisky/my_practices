@@ -6,7 +6,8 @@
 all: build_module install test
 
 build_module:
-	gcc -fpic --shared $(shell python3-config --includes) samplemodule.c -o sample.abi3.so
+	#gcc -fpic --shared $(shell python3-config --includes) samplemodule.c -o sample.abi3.so
+	python3 setup build
 
 install:
 	sudo python3 setup.py install
